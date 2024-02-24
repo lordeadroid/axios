@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather</title>
+    <script>
+      const getTodayWeather = () => {
+        const url = "https://api.weather.gov/gridpoints/OKX/60,60/forecast";
+
+        return new Promise(async (res, rej) => {
+          const response = await fetch(url);
+          const data = await response.json();
+
+          if (data) {
+            return res(data);
+          }
+
+          return rej("Not Reachable");
+        });
+      };
+
+      const main = () => {
+        getTodayWeather().then((data) => {
+          const imageURL = data.properties.periods[0].icon;
+          const imageElement = document.createElement("img");
+          imageElement.src = imageURL;
+
+          const imageContainer = document.getElementById("image-container");
+          imageContainer.appendChild(imageElement);
+        });
+      };
+
+      window.onload = main;
+    </script>
+  </head>
+  <body>
+    <div id="image-container"></div>
+  </body>
+</html>
