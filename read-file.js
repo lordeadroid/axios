@@ -12,7 +12,7 @@ const readFile = (fileName) => {
 };
 
 // Immediately Invoked Function Expression
-(async () => {
+const asyncAwait = async () => {
   console.time("measure");
   const file1 = readFile("reverse.js");
   const file2 = readFile("package.json");
@@ -20,6 +20,16 @@ const readFile = (fileName) => {
   const data = await Promise.all([file1, file2]);
   console.log(data[0], data[1]);
   console.timeEnd("measure");
-})();
+};
 
-console.log("hello");
+const promises = () => {
+  readFile("package.json")
+    .then((data1) => {
+      console.log(data1);
+      return readFile("package-lock.json");
+    })
+    .then((data2) => {
+      console.log(data2);
+    })
+    .catch((err) => console.error(err));
+};
